@@ -1,0 +1,17 @@
+/.bundle/
+/.yardoc/
+/_yardoc/
+/coverage/
+/doc/
+/pkg/
+/spec/reports/
+/tmp/
+/vendor/bundle/
+*.gem
+*.rbc
+.DS_Store
+Gemfile.lock
+.ruby-version
+.env
+.env.*
+!.env.example

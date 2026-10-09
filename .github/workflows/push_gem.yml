@@ -1,0 +1,40 @@
+name: Push gem
+
+# Publishes to RubyGems.org when a matching version tag is pushed.
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+
+jobs:
+  push:
+    name: Push gem to RubyGems.org
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      id-token: write
+
+    environment: release
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+          ruby-version: ruby
+      - name: Verify tag matches gem version
+        run: |
+          expected="v$(ruby -r ./lib/cvrvaelger/version -e 'print Cvrvaelger::VERSION')"
+          actual="${GITHUB_REF_NAME}"
+          if [ "$actual" != "$expected" ]; then
+            echo "Tag $actual does not match Cvrvaelger::VERSION ($expected)"
+            exit 1
+          fi
+      - uses: rubygems/release-gem@v1

@@ -1,0 +1,567 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://graphql.datafordeler.dk/CVR/v2?apiKey=<API_KEY>
+    body:
+      encoding: UTF-8
+      string: '{"query":"query SearchNavn($q: String!, $at: DafDateTime!) {\n  CVR_Navn(first:
+        10, virkningstid: $at, where: { vaerdi: { eq: $q } }) {\n    nodes { CVREnhedsId
+        vaerdi }\n  }\n}\n","variables":{"q":"LEGO SYSTEM A/S","at":"2026-10-09T12:00:00.000000Z"}}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - Cvrvaelger/0.1.0
+      Host:
+      - graphql.datafordeler.dk
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 09 Oct 2026 18:08:16 GMT
+      Transfer-Encoding:
+      - chunked
+      Server-Timing:
+      - reqlatency;dur=16
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      - max-age=63072000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: '{"data":{"CVR_Navn":{"nodes":[{"CVREnhedsId":"4001142075","vaerdi":"LEGO
+        SYSTEM A/S"},{"CVREnhedsId":"4002931374","vaerdi":"LEGO SYSTEM A/S"},{"CVREnhedsId":"4006770632","vaerdi":"LEGO
+        SYSTEM A/S"},{"CVREnhedsId":"4007637415","vaerdi":"LEGO SYSTEM A/S"},{"CVREnhedsId":"4007637431","vaerdi":"LEGO
+        SYSTEM A/S"},{"CVREnhedsId":"4007637440","vaerdi":"LEGO SYSTEM A/S"},{"CVREnhedsId":"4007637452","vaerdi":"LEGO
+        SYSTEM A/S"},{"CVREnhedsId":"4007637458","vaerdi":"LEGO SYSTEM A/S"},{"CVREnhedsId":"4007637460","vaerdi":"LEGO
+        SYSTEM A/S"},{"CVREnhedsId":"4007637465","vaerdi":"LEGO SYSTEM A/S"}]}}}'
+  recorded_at: Fri, 09 Oct 2026 18:08:17 GMT
+- request:
+    method: post
+    uri: https://graphql.datafordeler.dk/CVR/v2?apiKey=<API_KEY>
+    body:
+      encoding: UTF-8
+      string: '{"query":"query VirksomhedById($id: String!, $at: DafDateTime!) {\n  CVR_Virksomhed(first:
+        1, virkningstid: $at, where: { id: { eq: $id } }) {\n    nodes { id CVRNummer
+        status }\n  }\n}\n","variables":{"id":"4001142075","at":"2026-10-09T12:00:00.000000Z"}}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - Cvrvaelger/0.1.0
+      Host:
+      - graphql.datafordeler.dk
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 09 Oct 2026 18:08:17 GMT
+      Transfer-Encoding:
+      - chunked
+      Server-Timing:
+      - reqlatency;dur=15
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      - max-age=63072000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: '{"data":{"CVR_Virksomhed":{"nodes":[{"id":"4001142075","CVRNummer":47458714,"status":"aktiv"}]}}}'
+  recorded_at: Fri, 09 Oct 2026 18:08:17 GMT
+- request:
+    method: post
+    uri: https://graphql.datafordeler.dk/CVR/v2?apiKey=<API_KEY>
+    body:
+      encoding: UTF-8
+      string: '{"query":"query NavnById($id: String!, $at: DafDateTime!) {\n  CVR_Navn(first:
+        1, virkningstid: $at, where: { CVREnhedsId: { eq: $id } }) {\n    nodes {
+        vaerdi }\n  }\n}\n","variables":{"id":"4001142075","at":"2026-10-09T12:00:00.000000Z"}}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - Cvrvaelger/0.1.0
+      Host:
+      - graphql.datafordeler.dk
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 09 Oct 2026 18:08:17 GMT
+      Transfer-Encoding:
+      - chunked
+      Server-Timing:
+      - reqlatency;dur=9
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      - max-age=63072000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: '{"data":{"CVR_Navn":{"nodes":[{"vaerdi":"LEGO SYSTEM A/S"}]}}}'
+  recorded_at: Fri, 09 Oct 2026 18:08:17 GMT
+- request:
+    method: post
+    uri: https://graphql.datafordeler.dk/CVR/v2?apiKey=<API_KEY>
+    body:
+      encoding: UTF-8
+      string: '{"query":"query AdresseById($id: String!, $at: DafDateTime!) {\n  CVR_Adressering(first:
+        5, virkningstid: $at, where: { CVREnhedsId: { eq: $id } }) {\n    nodes {\n      AdresseringAnvendelse\n      CVRAdresse_vejnavn\n      CVRAdresse_husnummerFra\n      CVRAdresse_postnummer\n      CVRAdresse_postdistrikt\n    }\n  }\n}\n","variables":{"id":"4001142075","at":"2026-10-09T12:00:00.000000Z"}}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - Cvrvaelger/0.1.0
+      Host:
+      - graphql.datafordeler.dk
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 09 Oct 2026 18:08:17 GMT
+      Transfer-Encoding:
+      - chunked
+      Server-Timing:
+      - reqlatency;dur=11
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      - max-age=63072000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJkYXRhIjp7IkNWUl9BZHJlc3NlcmluZyI6eyJub2RlcyI6W3siQWRyZXNzZXJpbmdBbnZlbmRlbHNlIjoiYmVsaWdnZW5oZWRzYWRyZXNzZSIsIkNWUkFkcmVzc2VfdmVqbmF2biI6IsOFc3R2ZWoiLCJDVlJBZHJlc3NlX2h1c251bW1lckZyYSI6IjEiLCJDVlJBZHJlc3NlX3Bvc3RudW1tZXIiOiI3MTkwIiwiQ1ZSQWRyZXNzZV9wb3N0ZGlzdHJpa3QiOiJCaWxsdW5kIn1dfX19
+  recorded_at: Fri, 09 Oct 2026 18:08:17 GMT
+- request:
+    method: post
+    uri: https://graphql.datafordeler.dk/CVR/v2?apiKey=<API_KEY>
+    body:
+      encoding: UTF-8
+      string: '{"query":"query VirksomhedById($id: String!, $at: DafDateTime!) {\n  CVR_Virksomhed(first:
+        1, virkningstid: $at, where: { id: { eq: $id } }) {\n    nodes { id CVRNummer
+        status }\n  }\n}\n","variables":{"id":"4002931374","at":"2026-10-09T12:00:00.000000Z"}}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - Cvrvaelger/0.1.0
+      Host:
+      - graphql.datafordeler.dk
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 09 Oct 2026 18:08:17 GMT
+      Transfer-Encoding:
+      - chunked
+      Server-Timing:
+      - reqlatency;dur=13
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      - max-age=63072000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: '{"data":{"CVR_Virksomhed":{"nodes":[]}}}'
+  recorded_at: Fri, 09 Oct 2026 18:08:17 GMT
+- request:
+    method: post
+    uri: https://graphql.datafordeler.dk/CVR/v2?apiKey=<API_KEY>
+    body:
+      encoding: UTF-8
+      string: '{"query":"query VirksomhedById($id: String!, $at: DafDateTime!) {\n  CVR_Virksomhed(first:
+        1, virkningstid: $at, where: { id: { eq: $id } }) {\n    nodes { id CVRNummer
+        status }\n  }\n}\n","variables":{"id":"4006770632","at":"2026-10-09T12:00:00.000000Z"}}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - Cvrvaelger/0.1.0
+      Host:
+      - graphql.datafordeler.dk
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 09 Oct 2026 18:08:17 GMT
+      Transfer-Encoding:
+      - chunked
+      Server-Timing:
+      - reqlatency;dur=9
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      - max-age=63072000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: '{"data":{"CVR_Virksomhed":{"nodes":[]}}}'
+  recorded_at: Fri, 09 Oct 2026 18:08:17 GMT
+- request:
+    method: post
+    uri: https://graphql.datafordeler.dk/CVR/v2?apiKey=<API_KEY>
+    body:
+      encoding: UTF-8
+      string: '{"query":"query VirksomhedById($id: String!, $at: DafDateTime!) {\n  CVR_Virksomhed(first:
+        1, virkningstid: $at, where: { id: { eq: $id } }) {\n    nodes { id CVRNummer
+        status }\n  }\n}\n","variables":{"id":"4007637415","at":"2026-10-09T12:00:00.000000Z"}}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - Cvrvaelger/0.1.0
+      Host:
+      - graphql.datafordeler.dk
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 09 Oct 2026 18:08:17 GMT
+      Transfer-Encoding:
+      - chunked
+      Server-Timing:
+      - reqlatency;dur=10
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      - max-age=63072000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: '{"data":{"CVR_Virksomhed":{"nodes":[]}}}'
+  recorded_at: Fri, 09 Oct 2026 18:08:17 GMT
+- request:
+    method: post
+    uri: https://graphql.datafordeler.dk/CVR/v2?apiKey=<API_KEY>
+    body:
+      encoding: UTF-8
+      string: '{"query":"query VirksomhedById($id: String!, $at: DafDateTime!) {\n  CVR_Virksomhed(first:
+        1, virkningstid: $at, where: { id: { eq: $id } }) {\n    nodes { id CVRNummer
+        status }\n  }\n}\n","variables":{"id":"4007637431","at":"2026-10-09T12:00:00.000000Z"}}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - Cvrvaelger/0.1.0
+      Host:
+      - graphql.datafordeler.dk
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 09 Oct 2026 18:08:17 GMT
+      Transfer-Encoding:
+      - chunked
+      Server-Timing:
+      - reqlatency;dur=9
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      - max-age=63072000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: '{"data":{"CVR_Virksomhed":{"nodes":[]}}}'
+  recorded_at: Fri, 09 Oct 2026 18:08:18 GMT
+- request:
+    method: post
+    uri: https://graphql.datafordeler.dk/CVR/v2?apiKey=<API_KEY>
+    body:
+      encoding: UTF-8
+      string: '{"query":"query VirksomhedById($id: String!, $at: DafDateTime!) {\n  CVR_Virksomhed(first:
+        1, virkningstid: $at, where: { id: { eq: $id } }) {\n    nodes { id CVRNummer
+        status }\n  }\n}\n","variables":{"id":"4007637440","at":"2026-10-09T12:00:00.000000Z"}}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - Cvrvaelger/0.1.0
+      Host:
+      - graphql.datafordeler.dk
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 09 Oct 2026 18:08:17 GMT
+      Transfer-Encoding:
+      - chunked
+      Server-Timing:
+      - reqlatency;dur=9
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      - max-age=63072000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: '{"data":{"CVR_Virksomhed":{"nodes":[]}}}'
+  recorded_at: Fri, 09 Oct 2026 18:08:18 GMT
+- request:
+    method: post
+    uri: https://graphql.datafordeler.dk/CVR/v2?apiKey=<API_KEY>
+    body:
+      encoding: UTF-8
+      string: '{"query":"query VirksomhedById($id: String!, $at: DafDateTime!) {\n  CVR_Virksomhed(first:
+        1, virkningstid: $at, where: { id: { eq: $id } }) {\n    nodes { id CVRNummer
+        status }\n  }\n}\n","variables":{"id":"4007637452","at":"2026-10-09T12:00:00.000000Z"}}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - Cvrvaelger/0.1.0
+      Host:
+      - graphql.datafordeler.dk
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 09 Oct 2026 18:08:17 GMT
+      Transfer-Encoding:
+      - chunked
+      Server-Timing:
+      - reqlatency;dur=9
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      - max-age=63072000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: '{"data":{"CVR_Virksomhed":{"nodes":[]}}}'
+  recorded_at: Fri, 09 Oct 2026 18:08:18 GMT
+- request:
+    method: post
+    uri: https://graphql.datafordeler.dk/CVR/v2?apiKey=<API_KEY>
+    body:
+      encoding: UTF-8
+      string: '{"query":"query VirksomhedById($id: String!, $at: DafDateTime!) {\n  CVR_Virksomhed(first:
+        1, virkningstid: $at, where: { id: { eq: $id } }) {\n    nodes { id CVRNummer
+        status }\n  }\n}\n","variables":{"id":"4007637458","at":"2026-10-09T12:00:00.000000Z"}}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - Cvrvaelger/0.1.0
+      Host:
+      - graphql.datafordeler.dk
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 09 Oct 2026 18:08:18 GMT
+      Transfer-Encoding:
+      - chunked
+      Server-Timing:
+      - reqlatency;dur=10
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      - max-age=63072000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: '{"data":{"CVR_Virksomhed":{"nodes":[]}}}'
+  recorded_at: Fri, 09 Oct 2026 18:08:18 GMT
+- request:
+    method: post
+    uri: https://graphql.datafordeler.dk/CVR/v2?apiKey=<API_KEY>
+    body:
+      encoding: UTF-8
+      string: '{"query":"query VirksomhedById($id: String!, $at: DafDateTime!) {\n  CVR_Virksomhed(first:
+        1, virkningstid: $at, where: { id: { eq: $id } }) {\n    nodes { id CVRNummer
+        status }\n  }\n}\n","variables":{"id":"4007637460","at":"2026-10-09T12:00:00.000000Z"}}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - Cvrvaelger/0.1.0
+      Host:
+      - graphql.datafordeler.dk
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 09 Oct 2026 18:08:17 GMT
+      Transfer-Encoding:
+      - chunked
+      Server-Timing:
+      - reqlatency;dur=99
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      - max-age=63072000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: '{"data":{"CVR_Virksomhed":{"nodes":[]}}}'
+  recorded_at: Fri, 09 Oct 2026 18:08:18 GMT
+- request:
+    method: post
+    uri: https://graphql.datafordeler.dk/CVR/v2?apiKey=<API_KEY>
+    body:
+      encoding: UTF-8
+      string: '{"query":"query VirksomhedById($id: String!, $at: DafDateTime!) {\n  CVR_Virksomhed(first:
+        1, virkningstid: $at, where: { id: { eq: $id } }) {\n    nodes { id CVRNummer
+        status }\n  }\n}\n","variables":{"id":"4007637465","at":"2026-10-09T12:00:00.000000Z"}}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - Cvrvaelger/0.1.0
+      Host:
+      - graphql.datafordeler.dk
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 09 Oct 2026 18:08:18 GMT
+      Transfer-Encoding:
+      - chunked
+      Server-Timing:
+      - reqlatency;dur=9
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      - max-age=63072000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: '{"data":{"CVR_Virksomhed":{"nodes":[]}}}'
+  recorded_at: Fri, 09 Oct 2026 18:08:18 GMT
+recorded_with: VCR 6.4.0

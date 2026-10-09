@@ -1,0 +1,95 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://graphql.datafordeler.dk/CVR/v2?apiKey=<API_KEY>
+    body:
+      encoding: UTF-8
+      string: '{"query":"{\n  CVR_Navn(first: 5, virkningstid: \"2026-10-09T12:00:00.000000Z\",
+        where: { vaerdi: { eq: \"LEGO SYSTEM A/S\" } }) {\n    nodes { CVREnhedsId
+        vaerdi }\n  }\n}\n","variables":{}}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - Cvrvaelger/0.1.0
+      Host:
+      - graphql.datafordeler.dk
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 09 Oct 2026 18:09:07 GMT
+      Transfer-Encoding:
+      - chunked
+      Server-Timing:
+      - reqlatency;dur=20
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      - max-age=63072000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: '{"data":{"CVR_Navn":{"nodes":[{"CVREnhedsId":"4001142075","vaerdi":"LEGO
+        SYSTEM A/S"},{"CVREnhedsId":"4002931374","vaerdi":"LEGO SYSTEM A/S"},{"CVREnhedsId":"4006770632","vaerdi":"LEGO
+        SYSTEM A/S"},{"CVREnhedsId":"4007637415","vaerdi":"LEGO SYSTEM A/S"},{"CVREnhedsId":"4007637431","vaerdi":"LEGO
+        SYSTEM A/S"}]}}}'
+  recorded_at: Fri, 09 Oct 2026 18:09:07 GMT
+- request:
+    method: post
+    uri: https://graphql.datafordeler.dk/CVR/v2?apiKey=<API_KEY>
+    body:
+      encoding: UTF-8
+      string: '{"query":"{\n  CVR_Navn(first: 10, virkningstid: \"2026-10-09T12:00:00.000000Z\",
+        where: { vaerdi: { in: [\"LEGO SYSTEM A/S\", \"Salling Group A/S\"] } }) {\n    nodes
+        { vaerdi }\n  }\n}\n","variables":{}}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - Cvrvaelger/0.1.0
+      Host:
+      - graphql.datafordeler.dk
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 09 Oct 2026 18:09:07 GMT
+      Transfer-Encoding:
+      - chunked
+      Server-Timing:
+      - reqlatency;dur=14
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      - max-age=63072000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: '{"data":{"CVR_Navn":{"nodes":[{"vaerdi":"Salling Group A/S"},{"vaerdi":"LEGO
+        SYSTEM A/S"},{"vaerdi":"Salling Group A/S"},{"vaerdi":"LEGO SYSTEM A/S"},{"vaerdi":"LEGO
+        SYSTEM A/S"},{"vaerdi":"LEGO SYSTEM A/S"},{"vaerdi":"LEGO SYSTEM A/S"},{"vaerdi":"LEGO
+        SYSTEM A/S"},{"vaerdi":"LEGO SYSTEM A/S"},{"vaerdi":"LEGO SYSTEM A/S"}]}}}'
+  recorded_at: Fri, 09 Oct 2026 18:09:07 GMT
+recorded_with: VCR 6.4.0

@@ -52,7 +52,7 @@ module Cvrvaelger
 
     def self.build_address_line(address, node)
       if address["vejnavn"]
-        parts = [ scalar(address["vejnavn"]), scalar(address["husnummer"] || address["husnr"]) ]
+        parts = [scalar(address["vejnavn"]), scalar(address["husnummer"] || address["husnr"])]
         joined = parts.compact.map { |part| part.to_s.strip }.reject(&:empty?).join(" ")
         return present_string(joined)
       end

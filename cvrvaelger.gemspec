@@ -11,8 +11,8 @@ Gem::Specification.new do |spec|
   spec.summary = "Ruby client for Danish CVR company lookup via Datafordeler GraphQL."
   spec.description = <<~DESC
     HTTP client for Det Centrale Virksomhedsregister (CVR) on Datafordeler GraphQL:
-    verify an 8-digit CVR number and return the registered company name (and light
-    address fields). No Rails dependency; host apps own UI and persistence.
+    verify an 8-digit CVR number or exact registered name and return the company
+    name plus light address fields for picker UX. No Rails dependency.
   DESC
   spec.homepage = "https://github.com/bergholdt/cvrvaelger"
   spec.license = "MIT"
@@ -26,7 +26,7 @@ Gem::Specification.new do |spec|
 
   spec.files = Dir.chdir(__dir__) do
     `git ls-files -z`.split("\x0").reject do |f|
-      f.start_with?(*%w[bin/ test/ .git .github Gemfile Rakefile])
+      f.start_with?(*%w[bin/ test/ .git .github Gemfile Rakefile AGENTS.md])
     end
   end
   spec.require_paths = ["lib"]

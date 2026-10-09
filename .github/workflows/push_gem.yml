@@ -1,6 +1,6 @@
 name: Push gem
 
-# Publishes to RubyGems.org when a matching version tag is pushed.
+# Publishes to RubyGems.org when a tag vX.Y.Z matching Cvrvaelger::VERSION is pushed.
 on:
   push:
     tags:

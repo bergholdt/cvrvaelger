@@ -1,0 +1,218 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://graphql.datafordeler.dk/CVR/v2?apiKey=<API_KEY>
+    body:
+      encoding: UTF-8
+      string: '{"query":"query SearchNavn($q: String!, $at: DafDateTime!) {\n  CVR_Navn(first:
+        10, virkningstid: $at, where: { vaerdi: { eq: $q } }) {\n    nodes { CVREnhedsId
+        vaerdi }\n  }\n}\n","variables":{"q":"Salling Group A/S","at":"2026-10-09T12:00:00.000000Z"}}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - Cvrvaelger/0.1.0
+      Host:
+      - graphql.datafordeler.dk
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 09 Oct 2026 18:08:14 GMT
+      Transfer-Encoding:
+      - chunked
+      Server-Timing:
+      - reqlatency;dur=12
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      - max-age=63072000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: '{"data":{"CVR_Navn":{"nodes":[{"CVREnhedsId":"4000333383","vaerdi":"Salling
+        Group A/S"},{"CVREnhedsId":"4002313219","vaerdi":"Salling Group A/S"}]}}}'
+  recorded_at: Fri, 09 Oct 2026 18:08:15 GMT
+- request:
+    method: post
+    uri: https://graphql.datafordeler.dk/CVR/v2?apiKey=<API_KEY>
+    body:
+      encoding: UTF-8
+      string: '{"query":"query VirksomhedById($id: String!, $at: DafDateTime!) {\n  CVR_Virksomhed(first:
+        1, virkningstid: $at, where: { id: { eq: $id } }) {\n    nodes { id CVRNummer
+        status }\n  }\n}\n","variables":{"id":"4000333383","at":"2026-10-09T12:00:00.000000Z"}}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - Cvrvaelger/0.1.0
+      Host:
+      - graphql.datafordeler.dk
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 09 Oct 2026 18:08:16 GMT
+      Transfer-Encoding:
+      - chunked
+      Server-Timing:
+      - reqlatency;dur=14
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      - max-age=63072000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: '{"data":{"CVR_Virksomhed":{"nodes":[{"id":"4000333383","CVRNummer":35954716,"status":"aktiv"}]}}}'
+  recorded_at: Fri, 09 Oct 2026 18:08:16 GMT
+- request:
+    method: post
+    uri: https://graphql.datafordeler.dk/CVR/v2?apiKey=<API_KEY>
+    body:
+      encoding: UTF-8
+      string: '{"query":"query NavnById($id: String!, $at: DafDateTime!) {\n  CVR_Navn(first:
+        1, virkningstid: $at, where: { CVREnhedsId: { eq: $id } }) {\n    nodes {
+        vaerdi }\n  }\n}\n","variables":{"id":"4000333383","at":"2026-10-09T12:00:00.000000Z"}}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - Cvrvaelger/0.1.0
+      Host:
+      - graphql.datafordeler.dk
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 09 Oct 2026 18:08:16 GMT
+      Transfer-Encoding:
+      - chunked
+      Server-Timing:
+      - reqlatency;dur=21
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      - max-age=63072000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: '{"data":{"CVR_Navn":{"nodes":[{"vaerdi":"Salling Group A/S"}]}}}'
+  recorded_at: Fri, 09 Oct 2026 18:08:16 GMT
+- request:
+    method: post
+    uri: https://graphql.datafordeler.dk/CVR/v2?apiKey=<API_KEY>
+    body:
+      encoding: UTF-8
+      string: '{"query":"query AdresseById($id: String!, $at: DafDateTime!) {\n  CVR_Adressering(first:
+        5, virkningstid: $at, where: { CVREnhedsId: { eq: $id } }) {\n    nodes {\n      AdresseringAnvendelse\n      CVRAdresse_vejnavn\n      CVRAdresse_husnummerFra\n      CVRAdresse_postnummer\n      CVRAdresse_postdistrikt\n    }\n  }\n}\n","variables":{"id":"4000333383","at":"2026-10-09T12:00:00.000000Z"}}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - Cvrvaelger/0.1.0
+      Host:
+      - graphql.datafordeler.dk
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 09 Oct 2026 18:08:16 GMT
+      Transfer-Encoding:
+      - chunked
+      Server-Timing:
+      - reqlatency;dur=218
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      - max-age=63072000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: '{"data":{"CVR_Adressering":{"nodes":[{"AdresseringAnvendelse":"beliggenhedsadresse","CVRAdresse_vejnavn":"Rosbjergvej","CVRAdresse_husnummerFra":"33","CVRAdresse_postnummer":"8220","CVRAdresse_postdistrikt":"Brabrand"}]}}}'
+  recorded_at: Fri, 09 Oct 2026 18:08:16 GMT
+- request:
+    method: post
+    uri: https://graphql.datafordeler.dk/CVR/v2?apiKey=<API_KEY>
+    body:
+      encoding: UTF-8
+      string: '{"query":"query VirksomhedById($id: String!, $at: DafDateTime!) {\n  CVR_Virksomhed(first:
+        1, virkningstid: $at, where: { id: { eq: $id } }) {\n    nodes { id CVRNummer
+        status }\n  }\n}\n","variables":{"id":"4002313219","at":"2026-10-09T12:00:00.000000Z"}}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - Cvrvaelger/0.1.0
+      Host:
+      - graphql.datafordeler.dk
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 09 Oct 2026 18:08:16 GMT
+      Transfer-Encoding:
+      - chunked
+      Server-Timing:
+      - reqlatency;dur=9
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      - max-age=63072000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: '{"data":{"CVR_Virksomhed":{"nodes":[]}}}'
+  recorded_at: Fri, 09 Oct 2026 18:08:17 GMT
+recorded_with: VCR 6.4.0

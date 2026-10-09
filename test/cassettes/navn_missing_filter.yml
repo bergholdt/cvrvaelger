@@ -1,0 +1,46 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://graphql.datafordeler.dk/CVR/v2?apiKey=<API_KEY>
+    body:
+      encoding: UTF-8
+      string: '{"query":"{ CVR_Navn(first: 1) { nodes { vaerdi } } }","variables":{}}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - Cvrvaelger/0.1.0
+      Host:
+      - graphql.datafordeler.dk
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 09 Oct 2026 18:08:29 GMT
+      Transfer-Encoding:
+      - chunked
+      Server-Timing:
+      - reqlatency;dur=14
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      - max-age=63072000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: '{"errors":[{"message":"When retrieving data for this entity, a filter
+        on at least one of the following fields must be specified: CVREnhedsId, datafordelerRowId,
+        vaerdi","locations":[{"line":1,"column":3}],"path":["CVR_Navn"],"extensions":{"traceId":"00-b284088d1a6a92c6193595733d0f9e1d-dfcea9bd21edfde6-01","code":"DAF-GQL-0009"}}],"data":{"CVR_Navn":null}}'
+  recorded_at: Fri, 09 Oct 2026 18:08:29 GMT
+recorded_with: VCR 6.4.0

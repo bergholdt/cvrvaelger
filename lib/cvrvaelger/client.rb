@@ -9,43 +9,55 @@ require_relative "company"
 module Cvrvaelger
   # HTTP client for Det Centrale Virksomhedsregister via Datafordeler GraphQL.
   #
-  # Official endpoint: https://graphql.datafordeler.dk/CVR/v1
+  # Official endpoint: https://graphql.datafordeler.dk/CVR/v2
   # Auth: free API key from Datafordeler Administration (query param `apiKey`).
   # No demo/default secret — configure CVRVAELGER_API_KEY or pass api_key:.
   class Client
-    DEFAULT_BASE_URL = "https://graphql.datafordeler.dk/CVR/v1"
+    DEFAULT_BASE_URL = "https://graphql.datafordeler.dk/CVR/v2"
 
-    # Minimal company lookup. Field shapes follow Datafordeler CVR GraphQL
-    # community examples (CVREnhed); parsing tolerates nested/flat navn.
-    LOOKUP_QUERY = <<~GRAPHQL.freeze
-      query LookupCvr($cvr: String!) {
-        CVREnhed(where: { cvrNummer: { eq: $cvr } }) {
-          nodes {
-            cvrNummer
-            navn
-            adresse {
-              vejnavn
-              husnummer
-              postnummer
-              postdistrikt
-            }
-          }
+    # Datafordeler allows one root field per query. Name match is exact (`eq`);
+    # there is no contains/fuzzy operator. `virkningstid` selects the bitemporal row.
+    VIRKSOMHED_BY_CVR_QUERY = <<~GRAPHQL.freeze
+      query LookupVirksomhed($cvr: Long!, $at: DafDateTime!) {
+        CVR_Virksomhed(first: 1, virkningstid: $at, where: { CVRNummer: { eq: $cvr } }) {
+          nodes { id CVRNummer status }
         }
       }
     GRAPHQL
 
-    SEARCH_QUERY = <<~GRAPHQL.freeze
-      query SearchCvr($q: String!) {
-        CVREnhed(where: { navn: { contains: $q } }, first: 10) {
+    VIRKSOMHED_BY_ID_QUERY = <<~GRAPHQL.freeze
+      query VirksomhedById($id: String!, $at: DafDateTime!) {
+        CVR_Virksomhed(first: 1, virkningstid: $at, where: { id: { eq: $id } }) {
+          nodes { id CVRNummer status }
+        }
+      }
+    GRAPHQL
+
+    NAVN_BY_ID_QUERY = <<~GRAPHQL.freeze
+      query NavnById($id: String!, $at: DafDateTime!) {
+        CVR_Navn(first: 1, virkningstid: $at, where: { CVREnhedsId: { eq: $id } }) {
+          nodes { vaerdi }
+        }
+      }
+    GRAPHQL
+
+    NAVN_BY_VALUE_QUERY = <<~GRAPHQL.freeze
+      query SearchNavn($q: String!, $at: DafDateTime!) {
+        CVR_Navn(first: 10, virkningstid: $at, where: { vaerdi: { eq: $q } }) {
+          nodes { CVREnhedsId vaerdi }
+        }
+      }
+    GRAPHQL
+
+    ADRESSE_BY_ID_QUERY = <<~GRAPHQL.freeze
+      query AdresseById($id: String!, $at: DafDateTime!) {
+        CVR_Adressering(first: 5, virkningstid: $at, where: { CVREnhedsId: { eq: $id } }) {
           nodes {
-            cvrNummer
-            navn
-            adresse {
-              vejnavn
-              husnummer
-              postnummer
-              postdistrikt
-            }
+            AdresseringAnvendelse
+            CVRAdresse_vejnavn
+            CVRAdresse_husnummerFra
+            CVRAdresse_postnummer
+            CVRAdresse_postdistrikt
           }
         }
       }
@@ -61,39 +73,36 @@ module Cvrvaelger
     end
 
     # Verify an 8-digit CVR and return Company, or nil when not found.
-    def lookup(cvr)
+    # `at` is the bitemporal virkningstid (default: now).
+    def lookup(cvr, at: Time.now)
       normalized = Company.normalize_cvr(cvr)
       return nil unless present?(normalized)
 
       ensure_api_key!
-      payload = post_graphql(LOOKUP_QUERY, cvr: normalized)
+      stamp = format_time(at)
+      payload = post_graphql(VIRKSOMHED_BY_CVR_QUERY, cvr: normalized.to_i, at: stamp)
       node = first_node(payload)
       return nil unless present?(node)
 
-      company = Company.from_node(node)
-      return nil unless present?(company.cvr) && present?(company.name)
-
-      company
+      company_from_virksomhed(node, stamp)
     end
 
-    # Picker search: 8-digit query → single lookup; otherwise name contains search.
-    def search(query)
+    # Picker search: 8 digits → lookup; otherwise exact, case-sensitive name match.
+    def search(query, at: Time.now)
       q = query.to_s.strip
       return [] if q.length < 2
 
       digits = Company.normalize_cvr(q)
       if digits
-        company = lookup(digits)
+        company = lookup(digits, at: at)
         return company ? [ company ] : []
       end
 
       ensure_api_key!
-      payload = post_graphql(SEARCH_QUERY, q: q)
-      Array(nodes(payload)).filter_map do |node|
-        company = Company.from_node(node)
-        next unless present?(company.cvr) && present?(company.name)
-
-        company
+      stamp = format_time(at)
+      payload = post_graphql(NAVN_BY_VALUE_QUERY, q: q, at: stamp)
+      Array(nodes(payload)).filter_map { |node| node["CVREnhedsId"] }.uniq.filter_map do |id|
+        company_from_id(id, stamp)
       end
     end
 
@@ -106,6 +115,51 @@ module Cvrvaelger
 
         raise ConfigurationError,
           "CVRVAELGER_API_KEY (or DATAFORDELER_API_KEY) is required — create a free API key in Datafordeler Administration"
+      end
+
+      def company_from_id(id, stamp)
+        payload = post_graphql(VIRKSOMHED_BY_ID_QUERY, id: id, at: stamp)
+        node = first_node(payload)
+        return nil unless present?(node)
+
+        company_from_virksomhed(node, stamp)
+      end
+
+      def company_from_virksomhed(node, stamp)
+        id = node["id"]
+        return nil unless present?(id)
+
+        name = first_node(post_graphql(NAVN_BY_ID_QUERY, id: id, at: stamp))&.dig("vaerdi")
+        address = preferred_address(nodes(post_graphql(ADRESSE_BY_ID_QUERY, id: id, at: stamp)))
+        company = Company.from_node(
+          "cvrNummer" => format("%08d", node["CVRNummer"].to_i),
+          "navn" => name,
+          "status" => node["status"],
+          "adresse" => address_fields(address)
+        )
+        return nil unless present?(company.cvr) && present?(company.name)
+
+        company
+      end
+
+      def preferred_address(list)
+        rows = Array(list).select { |row| row.is_a?(Hash) }
+        rows.find { |row| row["AdresseringAnvendelse"] == "beliggenhedsadresse" } || rows.first
+      end
+
+      def address_fields(address)
+        return {} unless address.is_a?(Hash)
+
+        {
+          "vejnavn" => address["CVRAdresse_vejnavn"],
+          "husnummer" => address["CVRAdresse_husnummerFra"],
+          "postnummer" => address["CVRAdresse_postnummer"],
+          "postdistrikt" => address["CVRAdresse_postdistrikt"]
+        }
+      end
+
+      def format_time(time)
+        time.getutc.strftime("%Y-%m-%dT%H:%M:%S.000000Z")
       end
 
       def first_node(payload)
@@ -156,7 +210,7 @@ module Cvrvaelger
           return http.call(uri, request)
         end
 
-        Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == "https", open_timeout: 5, read_timeout: 10) do |client|
+        Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == "https", open_timeout: 10, read_timeout: 30) do |client|
           client.request(request)
         end
       rescue Net::OpenTimeout, Net::ReadTimeout, Errno::ECONNREFUSED, SocketError, Socket::ResolutionError => e

@@ -27,12 +27,14 @@ client = Cvrvaelger::Client.new(
   api_key: ENV.fetch("CVRVAELGER_API_KEY")
 )
 
-company = client.lookup("25052943")
-company.cvr  # => "25052943"
-company.name # => registered name
+company = client.lookup("47458714")
+company.cvr  # => "47458714"
+company.name # => "LEGO SYSTEM A/S"
 
-# Picker: 8 digits → lookup; otherwise name contains search
-hits = client.search("Magenta")
+# Picker: 8 digits → lookup; otherwise exact, case-sensitive name match.
+# Datafordeler string filters are `eq` / `in` only (no contains).
+hits = client.search("LEGO SYSTEM A/S")
+client.search("lego") # => []
 ```
 
 Environment variables:
@@ -41,7 +43,7 @@ Environment variables:
 | --- | --- |
 | `CVRVAELGER_API_KEY` | Datafordeler API key (preferred) |
 | `DATAFORDELER_API_KEY` | Accepted alias |
-| `CVRVAELGER_BASE_URL` | Override GraphQL endpoint (default `https://graphql.datafordeler.dk/CVR/v1`) |
+| `CVRVAELGER_BASE_URL` | Override GraphQL endpoint (default `https://graphql.datafordeler.dk/CVR/v2`) |
 
 ## API key
 
@@ -55,13 +57,14 @@ require a special CVR access request; `CVRPerson` is out of scope for this gem.
 bundle exec rake test
 ```
 
-Unit tests inject a fake HTTP callable. Optional VCR cassettes against the live
-API can be recorded when `CVRVAELGER_API_KEY` is set locally (`VCR_RECORD=all`).
-CI uses injected HTTP only (fail-closed; no invented keys).
+Unit tests inject a fake HTTP callable. Live examples are recorded with VCR
+(`test/cassettes`) and replayed in CI without an API key. Re-record locally
+with `CVRVAELGER_API_KEY` set and `VCR_RECORD=all`. Cassettes store the key as
+`<API_KEY>`.
 
 ## Scope
 
-**In:** Datafordeler CVR GraphQL lookup/search, company name + light address.
+**In:** Datafordeler CVR GraphQL v2 lookup/search, company name + light address.
 
 **Out:** Rails controllers/Stimulus, CRM sync, person data (`CVRPerson`),
 billing/credit scores, UK Companies House (host-app adapter later).

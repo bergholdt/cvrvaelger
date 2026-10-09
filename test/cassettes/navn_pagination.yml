@@ -1,0 +1,89 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://graphql.datafordeler.dk/CVR/v2?apiKey=<API_KEY>
+    body:
+      encoding: UTF-8
+      string: '{"query":"{\n  CVR_Navn(first: 1, where: { vaerdi: { eq: \"LEGO SYSTEM
+        A/S\" } }) {\n    pageInfo { hasNextPage endCursor }\n    nodes { CVREnhedsId
+        }\n  }\n}\n","variables":{}}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - Cvrvaelger/0.1.0
+      Host:
+      - graphql.datafordeler.dk
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 09 Oct 2026 18:08:46 GMT
+      Transfer-Encoding:
+      - chunked
+      Server-Timing:
+      - reqlatency;dur=16585
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      - max-age=63072000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: '{"data":{"CVR_Navn":{"pageInfo":{"hasNextPage":true,"endCursor":"TkRBd01URTBNakEzTlE9PTtNakF5TlMwd01TMHdNMVF4TURveU1UbzFOUzR3TURBd01EQXdLekF3T2pBdztNVGszTXkwd055MHdNUT09"},"nodes":[{"CVREnhedsId":"4001142075"}]}}}'
+  recorded_at: Fri, 09 Oct 2026 18:08:46 GMT
+- request:
+    method: post
+    uri: https://graphql.datafordeler.dk/CVR/v2?apiKey=<API_KEY>
+    body:
+      encoding: UTF-8
+      string: '{"query":"query($after: String!) {\n  CVR_Navn(first: 1, after: $after,
+        where: { vaerdi: { eq: \"LEGO SYSTEM A/S\" } }) {\n    pageInfo { hasPreviousPage
+        }\n    nodes { CVREnhedsId }\n  }\n}\n","variables":{"after":"TkRBd01URTBNakEzTlE9PTtNakF5TlMwd01TMHdNMVF4TURveU1UbzFOUzR3TURBd01EQXdLekF3T2pBdztNVGszTXkwd055MHdNUT09"}}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - Cvrvaelger/0.1.0
+      Host:
+      - graphql.datafordeler.dk
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 09 Oct 2026 18:09:04 GMT
+      Transfer-Encoding:
+      - chunked
+      Server-Timing:
+      - reqlatency;dur=18062
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      - max-age=63072000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: '{"data":{"CVR_Navn":{"pageInfo":{"hasPreviousPage":false},"nodes":[{"CVREnhedsId":"4002229624"}]}}}'
+  recorded_at: Fri, 09 Oct 2026 18:09:05 GMT
+recorded_with: VCR 6.4.0

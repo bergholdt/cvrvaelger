@@ -8,3 +8,4 @@
 - Requires a free Datafordeler API key (`CVRVAELGER_API_KEY`); no demo secret.
 - VCR cassettes for LEGO, Salling Group, empty searches, and the public query
   surface (API keys redacted).
+- RuboCop in CI (`bundle exec rake rubocop`).

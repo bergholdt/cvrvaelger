@@ -17,6 +17,8 @@ CodeQL (`.github/workflows/codeql.yml`), Dependabot (`.github/dependabot.yml`), 
 
 ```sh
 bundle exec rake test
+bundle exec rake rubocop
+# or: bundle exec rake
 ```
 
 ## VCR

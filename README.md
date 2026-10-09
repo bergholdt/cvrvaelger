@@ -64,9 +64,10 @@ require a special CVR access request; `CVRPerson` is out of scope for this gem.
 
 ```sh
 bundle exec rake test
+bundle exec rake rubocop
 ```
 
-Unit tests inject a fake HTTP callable. Live examples use
+Unit tests stub HTTP via an injected callable. Live examples use
 [VCR](https://github.com/vcr/vcr) cassettes recorded against the real API
 (API keys redacted as `<API_KEY>`). CI uses `record: :none` (fail-closed).
 To refresh cassettes locally:

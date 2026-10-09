@@ -46,8 +46,8 @@ VCR.configure do |config|
   }
 
   config.filter_sensitive_data("<API_KEY>") do
-    key = ENV["CVRVAELGER_API_KEY"]
-    key = ENV["DATAFORDELER_API_KEY"] if key.nil? || key.empty?
+    key = ENV.fetch("CVRVAELGER_API_KEY", nil)
+    key = ENV.fetch("DATAFORDELER_API_KEY", nil) if key.nil? || key.empty?
     key.nil? || key.empty? ? "vcr-api-key" : key
   end
 end

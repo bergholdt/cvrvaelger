@@ -1,9 +1,14 @@
 # frozen_string_literal: true
 
 module Cvrvaelger
-  Error = Class.new(StandardError)
+  class Error < StandardError
+  end
+
   # Raised when the Datafordeler CVR API fails, returns invalid JSON, or is unreachable.
-  ProviderError = Class.new(Error)
+  class ProviderError < Error
+  end
+
   # Raised when no API key is configured (no invented demo secret).
-  ConfigurationError = Class.new(Error)
+  class ConfigurationError < Error
+  end
 end

@@ -11,6 +11,7 @@ class ClientLookupTest < Minitest::Test
 
   def test_lookup_returns_nil_for_invalid_cvr_without_http
     client = Cvrvaelger::Client.new(api_key: "test-key", http: ->(*) { flunk "should not call HTTP" })
+
     assert_nil client.lookup("123")
     assert_nil client.lookup("")
     assert_nil client.lookup(nil)
@@ -33,6 +34,7 @@ class ClientLookupTest < Minitest::Test
       assert_includes uri.to_s, "apiKey=test-key-xx"
       body = JSON.parse(request.body)
       query = body.fetch("query")
+
       assert_equal STAMP, body.dig("variables", "at")
 
       if query.include?("CVRNummer")
@@ -40,12 +42,12 @@ class ClientLookupTest < Minitest::Test
         ok_json(
           "data" => {
             "CVR_Virksomhed" => {
-              "nodes" => [ { "id" => "4000000001", "CVRNummer" => 25_052_943, "status" => "aktiv" } ]
+              "nodes" => [{ "id" => "4000000001", "CVRNummer" => 25_052_943, "status" => "aktiv" }]
             }
           }
         )
       elsif query.include?("CVR_Navn")
-        ok_json("data" => { "CVR_Navn" => { "nodes" => [ { "vaerdi" => "Example ApS" } ] } })
+        ok_json("data" => { "CVR_Navn" => { "nodes" => [{ "vaerdi" => "Example ApS" }] } })
       else
         ok_json(
           "data" => {
@@ -91,18 +93,19 @@ class ClientLookupTest < Minitest::Test
         ok_json(
           "data" => {
             "CVR_Virksomhed" => {
-              "nodes" => [ { "id" => "1", "CVRNummer" => 25_052_943, "status" => "aktiv" } ]
+              "nodes" => [{ "id" => "1", "CVRNummer" => 25_052_943, "status" => "aktiv" }]
             }
           }
         )
       elsif query.include?("CVR_Navn")
-        ok_json("data" => { "CVR_Navn" => { "nodes" => [ { "vaerdi" => "Example ApS" } ] } })
+        ok_json("data" => { "CVR_Navn" => { "nodes" => [{ "vaerdi" => "Example ApS" }] } })
       else
         ok_json("data" => { "CVR_Adressering" => { "nodes" => [] } })
       end
     end
 
     hits = Cvrvaelger::Client.new(api_key: "k", http: http).search("25052943", at: AT)
+
     assert_equal 1, hits.size
     assert_equal "Example ApS", hits.first.name
   end
@@ -115,24 +118,25 @@ class ClientLookupTest < Minitest::Test
       query = body.fetch("query")
       if query.include?("vaerdi: { eq: $q }")
         assert_equal "Example ApS", body.dig("variables", "q")
-        ok_json("data" => { "CVR_Navn" => { "nodes" => [ { "CVREnhedsId" => "9", "vaerdi" => "Example ApS" } ] } })
+        ok_json("data" => { "CVR_Navn" => { "nodes" => [{ "CVREnhedsId" => "9", "vaerdi" => "Example ApS" }] } })
       elsif query.include?("id: { eq: $id }")
         ok_json(
           "data" => {
             "CVR_Virksomhed" => {
-              "nodes" => [ { "id" => "9", "CVRNummer" => 25_052_943, "status" => "aktiv" } ]
+              "nodes" => [{ "id" => "9", "CVRNummer" => 25_052_943, "status" => "aktiv" }]
             }
           }
         )
       elsif query.include?("CVR_Navn")
-        ok_json("data" => { "CVR_Navn" => { "nodes" => [ { "vaerdi" => "Example ApS" } ] } })
+        ok_json("data" => { "CVR_Navn" => { "nodes" => [{ "vaerdi" => "Example ApS" }] } })
       else
         ok_json("data" => { "CVR_Adressering" => { "nodes" => [] } })
       end
     end
 
     hits = Cvrvaelger::Client.new(api_key: "k", http: http).search("Example ApS", at: AT)
-    assert_equal [ "Example ApS" ], seen.compact
+
+    assert_equal ["Example ApS"], seen.compact
     assert_equal "25052943", hits.first.cvr
   end
 
@@ -149,14 +153,14 @@ class ClientLookupTest < Minitest::Test
     assert_match(/401/, error.message)
   end
 
+  AT = Time.utc(2026, 10, 9, 12, 0, 0)
+  STAMP = "2026-10-09T12:00:00.000000Z"
+
   private
 
-    AT = Time.utc(2026, 10, 9, 12, 0, 0)
-    STAMP = "2026-10-09T12:00:00.000000Z"
-
-    def ok_json(payload)
-      Net::HTTPOK.new("1.1", "200", "OK").tap do |response|
-        response.define_singleton_method(:body) { JSON.generate(payload) }
-      end
+  def ok_json(payload)
+    Net::HTTPOK.new("1.1", "200", "OK").tap do |response|
+      response.define_singleton_method(:body) { JSON.generate(payload) }
     end
+  end
 end

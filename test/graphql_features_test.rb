@@ -130,6 +130,7 @@ class GraphqlFeaturesTest < Minitest::Test
       GQL
       assert first.dig("pageInfo", "hasNextPage")
       cursor = first.dig("pageInfo", "endCursor")
+
       refute_nil cursor
 
       second = connection(<<~GQL, "CVR_Navn", after: cursor)
@@ -178,7 +179,7 @@ class GraphqlFeaturesTest < Minitest::Test
         GQL
 
         assert_kind_of Array, connection["nodes"], field
-        assert connection["pageInfo"].key?("hasNextPage"), field
+        assert connection["pageInfo"].key?("hasNextPage"), "missing hasNextPage for #{field}"
       end
     end
   end
@@ -294,19 +295,19 @@ class GraphqlFeaturesTest < Minitest::Test
 
   private
 
-    def with_cassette(name, &block)
-      VCR.use_cassette(name, &block)
-    end
+  def with_cassette(name, &)
+    VCR.use_cassette(name, &)
+  end
 
-    def nodes_for(query, field, **variables)
-      connection(query, field, **variables).fetch("nodes")
-    end
+  def nodes_for(query, field, **variables)
+    connection(query, field, **variables).fetch("nodes")
+  end
 
-    def connection(query, field, **variables)
-      graphql(query, **variables).dig("data", field)
-    end
+  def connection(query, field, **variables)
+    graphql(query, **variables).dig("data", field)
+  end
 
-    def graphql(query, **variables)
-      live_client.send(:post_graphql, query, **variables)
-    end
+  def graphql(query, **variables)
+    live_client.send(:post_graphql, query, **variables)
+  end
 end

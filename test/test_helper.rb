@@ -20,11 +20,27 @@ if File.file?(env_file)
   end
 end
 
+# VCR for Datafordeler CVR GraphQL. Record against the real API; never hand-write
+# cassettes. Local refresh: VCR_RECORD=all. CI uses record: :none. Keys redacted.
+module VcrRecordMode
+  module_function
+
+  def call
+    if ENV["VCR_RECORD"] && !ENV["VCR_RECORD"].empty?
+      ENV["VCR_RECORD"].to_sym
+    elsif ENV["CI"] && !ENV["CI"].empty?
+      :none
+    else
+      :once
+    end
+  end
+end
+
 VCR.configure do |config|
   config.cassette_library_dir = File.expand_path("cassettes", __dir__)
   config.hook_into :webmock
   config.default_cassette_options = {
-    record: ENV.fetch("VCR_RECORD", "once").to_sym,
+    record: VcrRecordMode.call,
     match_requests_on: %i[method uri body],
     decode_compressed_response: true
   }

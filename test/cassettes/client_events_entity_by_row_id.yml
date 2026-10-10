@@ -1,0 +1,90 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://graphql.datafordeler.dk/CVR/v2?apiKey=<API_KEY>
+    body:
+      encoding: UTF-8
+      string: '{"query":"query Events($first: Int!, $after: String) {\n  CVR_Events(first:
+        $first, after: $after) {\n    pageInfo { hasNextPage endCursor }\n    nodes
+        {\n      eventid\nentityname\neventaction\nfromfailedimport\nobject_id\nobject_datafordelerRowId\ndatafordelerOpdateringstid\ndatafordelerRegisterImportSequenceNumber\n\n    }\n  }\n}\n","variables":{"first":50,"after":null}}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - Cvrvaelger/0.1.0
+      Host:
+      - graphql.datafordeler.dk
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sat, 10 Oct 2026 14:28:52 GMT
+      Transfer-Encoding:
+      - chunked
+      Server-Timing:
+      - reqlatency;dur=8
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      - max-age=63072000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: '{"data":{"CVR_Events":{"pageInfo":{"hasNextPage":true,"endCursor":"TVE9PTtNZ0FBQUFBQUFBQT0="},"nodes":[{"eventid":1,"entityname":"CVREnhed","eventaction":"i","fromfailedimport":false,"object_id":"4010603255","object_datafordelerRowId":"1589ee04-8f15-4bab-a245-b231c76b1f72","datafordelerOpdateringstid":"2025-11-24T18:17:05.481142Z","datafordelerRegisterImportSequenceNumber":349504},{"eventid":2,"entityname":"Produktionsenhed","eventaction":"i","fromfailedimport":false,"object_id":"4010603255","object_datafordelerRowId":"b4787e33-5a11-43d1-976c-24b9acfff022","datafordelerOpdateringstid":"2025-11-24T18:17:05.482544Z","datafordelerRegisterImportSequenceNumber":349504},{"eventid":3,"entityname":"Reklamebeskyttelse","eventaction":"i","fromfailedimport":false,"object_id":"4010603255","object_datafordelerRowId":"27d0e026-c0f7-4f74-b108-b22ea608d3e9","datafordelerOpdateringstid":"2025-11-24T18:17:05.483874Z","datafordelerRegisterImportSequenceNumber":349504},{"eventid":4,"entityname":"Navn","eventaction":"i","fromfailedimport":false,"object_id":"4010603255","object_datafordelerRowId":"5046e4ed-b302-4c29-86ca-4e3c2452e713","datafordelerOpdateringstid":"2025-11-24T18:17:05.485220Z","datafordelerRegisterImportSequenceNumber":349504},{"eventid":5,"entityname":"Adressering","eventaction":"i","fromfailedimport":false,"object_id":"4010603255","object_datafordelerRowId":"b7b30032-be53-4701-b352-b7b8c9e278a8","datafordelerOpdateringstid":"2025-11-24T18:17:05.486854Z","datafordelerRegisterImportSequenceNumber":349504},{"eventid":6,"entityname":"Telefonnummer","eventaction":"i","fromfailedimport":false,"object_id":"4010603255","object_datafordelerRowId":"1b0343a8-763c-41bd-827c-6de011da0eac","datafordelerOpdateringstid":"2025-11-24T18:17:05.488319Z","datafordelerRegisterImportSequenceNumber":349504},{"eventid":7,"entityname":"e-mailadresse","eventaction":"i","fromfailedimport":false,"object_id":"4010603255","object_datafordelerRowId":"1a230b29-de04-4580-a4ad-ee67d11b90ab","datafordelerOpdateringstid":"2025-11-24T18:17:05.489673Z","datafordelerRegisterImportSequenceNumber":349504},{"eventid":8,"entityname":"Branche","eventaction":"i","fromfailedimport":false,"object_id":"4010603255","object_datafordelerRowId":"0edbd499-563a-4781-9e09-ad15f094af2f","datafordelerOpdateringstid":"2025-11-24T18:17:05.491383Z","datafordelerRegisterImportSequenceNumber":349504},{"eventid":9,"entityname":"CVREnhed","eventaction":"i","fromfailedimport":false,"object_id":"4010603254","object_datafordelerRowId":"398fa0c9-0e79-41ff-9781-8cdd6f049f6d","datafordelerOpdateringstid":"2025-11-24T18:17:05.492789Z","datafordelerRegisterImportSequenceNumber":349504},{"eventid":10,"entityname":"Produktionsenhed","eventaction":"i","fromfailedimport":false,"object_id":"4010603254","object_datafordelerRowId":"df4c975e-5a33-44c5-b0ca-6dbb31b35bee","datafordelerOpdateringstid":"2025-11-24T18:17:05.494518Z","datafordelerRegisterImportSequenceNumber":349504},{"eventid":11,"entityname":"Reklamebeskyttelse","eventaction":"i","fromfailedimport":false,"object_id":"4010603254","object_datafordelerRowId":"6781dbd4-800b-4336-8296-f8f0d3ca5565","datafordelerOpdateringstid":"2025-11-24T18:17:05.495882Z","datafordelerRegisterImportSequenceNumber":349504},{"eventid":12,"entityname":"Navn","eventaction":"i","fromfailedimport":false,"object_id":"4010603254","object_datafordelerRowId":"fd7d726e-f62d-4246-ab8b-c79c66e7fa63","datafordelerOpdateringstid":"2025-11-24T18:17:05.497211Z","datafordelerRegisterImportSequenceNumber":349504},{"eventid":13,"entityname":"Adressering","eventaction":"i","fromfailedimport":false,"object_id":"4010603254","object_datafordelerRowId":"9dad494e-7855-4734-8216-ec46bf9da412","datafordelerOpdateringstid":"2025-11-24T18:17:05.498586Z","datafordelerRegisterImportSequenceNumber":349504},{"eventid":14,"entityname":"Telefonnummer","eventaction":"i","fromfailedimport":false,"object_id":"4010603254","object_datafordelerRowId":"5ec80562-07db-470e-b1c7-b142a508403c","datafordelerOpdateringstid":"2025-11-24T18:17:05.500087Z","datafordelerRegisterImportSequenceNumber":349504},{"eventid":15,"entityname":"e-mailadresse","eventaction":"i","fromfailedimport":false,"object_id":"4010603254","object_datafordelerRowId":"9df222aa-7232-4a5a-ac01-a24d588f8f24","datafordelerOpdateringstid":"2025-11-24T18:17:05.501478Z","datafordelerRegisterImportSequenceNumber":349504},{"eventid":16,"entityname":"Branche","eventaction":"i","fromfailedimport":false,"object_id":"4010603254","object_datafordelerRowId":"bac6b517-c09c-442c-88a0-f9920f28ec73","datafordelerOpdateringstid":"2025-11-24T18:17:05.502825Z","datafordelerRegisterImportSequenceNumber":349504},{"eventid":17,"entityname":"CVREnhed","eventaction":"d","fromfailedimport":false,"object_id":"4003849238","object_datafordelerRowId":"d90f8606-06c4-4b1e-b1ee-35360cf3b76b","datafordelerOpdateringstid":"2025-11-24T18:17:05.509951Z","datafordelerRegisterImportSequenceNumber":310213},{"eventid":18,"entityname":"Produktionsenhed","eventaction":"d","fromfailedimport":false,"object_id":"4003849238","object_datafordelerRowId":"15abbed8-2a12-464f-870e-eb2ade7a53ff","datafordelerOpdateringstid":"2025-11-24T18:17:05.515308Z","datafordelerRegisterImportSequenceNumber":310213},{"eventid":19,"entityname":"Reklamebeskyttelse","eventaction":"d","fromfailedimport":false,"object_id":"4003849238","object_datafordelerRowId":"fd816ab4-97eb-4aa5-bc80-347c0b716288","datafordelerOpdateringstid":"2025-11-24T18:17:05.520211Z","datafordelerRegisterImportSequenceNumber":310213},{"eventid":20,"entityname":"Navn","eventaction":"d","fromfailedimport":false,"object_id":"4003849238","object_datafordelerRowId":"bdcc2bb2-e697-401f-beec-7404aed954c1","datafordelerOpdateringstid":"2025-11-24T18:17:05.525360Z","datafordelerRegisterImportSequenceNumber":310213},{"eventid":21,"entityname":"Navn","eventaction":"d","fromfailedimport":false,"object_id":"4003849238","object_datafordelerRowId":"39e7f797-4b50-4c99-aee9-2deaf4514fe9","datafordelerOpdateringstid":"2025-11-24T18:17:05.530548Z","datafordelerRegisterImportSequenceNumber":310213},{"eventid":22,"entityname":"Navn","eventaction":"d","fromfailedimport":false,"object_id":"4003849238","object_datafordelerRowId":"1ead63e1-c2d7-4c68-b806-0565dcb0fe36","datafordelerOpdateringstid":"2025-11-24T18:17:05.535103Z","datafordelerRegisterImportSequenceNumber":310213},{"eventid":23,"entityname":"Navn","eventaction":"d","fromfailedimport":false,"object_id":"4003849238","object_datafordelerRowId":"145e5146-9134-495f-8e01-078717443254","datafordelerOpdateringstid":"2025-11-24T18:17:05.540840Z","datafordelerRegisterImportSequenceNumber":310213},{"eventid":24,"entityname":"Adressering","eventaction":"d","fromfailedimport":false,"object_id":"4003849238","object_datafordelerRowId":"9e8dde30-7968-4fc1-8db8-e0d225f0af55","datafordelerOpdateringstid":"2025-11-24T18:17:05.545599Z","datafordelerRegisterImportSequenceNumber":310213},{"eventid":25,"entityname":"Adressering","eventaction":"d","fromfailedimport":false,"object_id":"4003849238","object_datafordelerRowId":"b7ba008e-2698-4723-a402-eac464da5d15","datafordelerOpdateringstid":"2025-11-24T18:17:05.550206Z","datafordelerRegisterImportSequenceNumber":310213},{"eventid":26,"entityname":"Adressering","eventaction":"d","fromfailedimport":false,"object_id":"4003849238","object_datafordelerRowId":"31a8fc4a-68a4-4b55-be88-5237d4d15a34","datafordelerOpdateringstid":"2025-11-24T18:17:05.554974Z","datafordelerRegisterImportSequenceNumber":310213},{"eventid":27,"entityname":"Adressering","eventaction":"d","fromfailedimport":false,"object_id":"4003849238","object_datafordelerRowId":"1b33164e-4f02-4b23-8f21-dd8848dba09f","datafordelerOpdateringstid":"2025-11-24T18:17:05.559316Z","datafordelerRegisterImportSequenceNumber":310213},{"eventid":28,"entityname":"Adressering","eventaction":"d","fromfailedimport":false,"object_id":"4003849238","object_datafordelerRowId":"d1739ac4-d1f8-410e-a72d-5beec22744b6","datafordelerOpdateringstid":"2025-11-24T18:17:05.563712Z","datafordelerRegisterImportSequenceNumber":310213},{"eventid":29,"entityname":"Branche","eventaction":"d","fromfailedimport":false,"object_id":"4003849238","object_datafordelerRowId":"dda4a5c3-861e-480e-a86a-50778dbd44e0","datafordelerOpdateringstid":"2025-11-24T18:17:05.568242Z","datafordelerRegisterImportSequenceNumber":310213},{"eventid":30,"entityname":"Branche","eventaction":"d","fromfailedimport":false,"object_id":"4003849238","object_datafordelerRowId":"9e19d6b8-70ae-4610-9139-58211c2533fc","datafordelerOpdateringstid":"2025-11-24T18:17:05.572802Z","datafordelerRegisterImportSequenceNumber":310213},{"eventid":31,"entityname":"Branche","eventaction":"d","fromfailedimport":false,"object_id":"4003849238","object_datafordelerRowId":"72cb3e70-931e-48b4-a9d8-b04b92158964","datafordelerOpdateringstid":"2025-11-24T18:17:05.577801Z","datafordelerRegisterImportSequenceNumber":310213},{"eventid":32,"entityname":"CVREnhed","eventaction":"i","fromfailedimport":false,"object_id":"4003849238","object_datafordelerRowId":"e5d62cc6-ff49-472a-8dda-4ab7fb20f4eb","datafordelerOpdateringstid":"2025-11-24T18:17:05.581745Z","datafordelerRegisterImportSequenceNumber":349504},{"eventid":33,"entityname":"Produktionsenhed","eventaction":"i","fromfailedimport":false,"object_id":"4003849238","object_datafordelerRowId":"d7e9d818-f408-4ab9-9b9c-8a5f2dc80d66","datafordelerOpdateringstid":"2025-11-24T18:17:05.583437Z","datafordelerRegisterImportSequenceNumber":349504},{"eventid":34,"entityname":"Reklamebeskyttelse","eventaction":"i","fromfailedimport":false,"object_id":"4003849238","object_datafordelerRowId":"e25c877e-eb3a-4c7d-8c53-e3038edecda8","datafordelerOpdateringstid":"2025-11-24T18:17:05.584935Z","datafordelerRegisterImportSequenceNumber":349504},{"eventid":35,"entityname":"Navn","eventaction":"i","fromfailedimport":false,"object_id":"4003849238","object_datafordelerRowId":"80945cb8-4d8d-4d4d-89b1-1d792c040408","datafordelerOpdateringstid":"2025-11-24T18:17:05.586375Z","datafordelerRegisterImportSequenceNumber":349504},{"eventid":36,"entityname":"Navn","eventaction":"i","fromfailedimport":false,"object_id":"4003849238","object_datafordelerRowId":"e2d77197-d087-4812-bbef-4ee41c4c0556","datafordelerOpdateringstid":"2025-11-24T18:17:05.587738Z","datafordelerRegisterImportSequenceNumber":349504},{"eventid":37,"entityname":"Navn","eventaction":"i","fromfailedimport":false,"object_id":"4003849238","object_datafordelerRowId":"57d08197-8879-4985-8dd0-22e6ec064d7b","datafordelerOpdateringstid":"2025-11-24T18:17:05.589218Z","datafordelerRegisterImportSequenceNumber":349504},{"eventid":38,"entityname":"Navn","eventaction":"i","fromfailedimport":false,"object_id":"4003849238","object_datafordelerRowId":"0ed3c9d3-9154-4fa8-8661-41aa14d85c66","datafordelerOpdateringstid":"2025-11-24T18:17:05.590618Z","datafordelerRegisterImportSequenceNumber":349504},{"eventid":39,"entityname":"Adressering","eventaction":"i","fromfailedimport":false,"object_id":"4003849238","object_datafordelerRowId":"dfdb0eab-ee8f-4096-86d3-65648d5dcc3a","datafordelerOpdateringstid":"2025-11-24T18:17:05.592019Z","datafordelerRegisterImportSequenceNumber":349504},{"eventid":40,"entityname":"Adressering","eventaction":"i","fromfailedimport":false,"object_id":"4003849238","object_datafordelerRowId":"0b2e6169-b27b-4dc9-b965-31c86d0780fd","datafordelerOpdateringstid":"2025-11-24T18:17:05.593537Z","datafordelerRegisterImportSequenceNumber":349504},{"eventid":41,"entityname":"Adressering","eventaction":"i","fromfailedimport":false,"object_id":"4003849238","object_datafordelerRowId":"dfedc092-ca29-4348-98af-dae4e171fcf9","datafordelerOpdateringstid":"2025-11-24T18:17:05.594989Z","datafordelerRegisterImportSequenceNumber":349504},{"eventid":42,"entityname":"Adressering","eventaction":"i","fromfailedimport":false,"object_id":"4003849238","object_datafordelerRowId":"875c2a1b-0ec5-4fb3-99ae-5b8a2de586da","datafordelerOpdateringstid":"2025-11-24T18:17:05.596416Z","datafordelerRegisterImportSequenceNumber":349504},{"eventid":43,"entityname":"Adressering","eventaction":"i","fromfailedimport":false,"object_id":"4003849238","object_datafordelerRowId":"abc6d110-d252-4de3-bd43-6ccc51cefc17","datafordelerOpdateringstid":"2025-11-24T18:17:05.597831Z","datafordelerRegisterImportSequenceNumber":349504},{"eventid":44,"entityname":"Adressering","eventaction":"i","fromfailedimport":false,"object_id":"4003849238","object_datafordelerRowId":"407bebdd-899e-404d-afb7-136c5c9ac4fe","datafordelerOpdateringstid":"2025-11-24T18:17:05.599318Z","datafordelerRegisterImportSequenceNumber":349504},{"eventid":45,"entityname":"Branche","eventaction":"i","fromfailedimport":false,"object_id":"4003849238","object_datafordelerRowId":"7bd80010-9f89-4ad9-929e-0a497596ea35","datafordelerOpdateringstid":"2025-11-24T18:17:05.600789Z","datafordelerRegisterImportSequenceNumber":349504},{"eventid":46,"entityname":"Branche","eventaction":"i","fromfailedimport":false,"object_id":"4003849238","object_datafordelerRowId":"99d2a71e-2b6b-4fd3-b275-0f4f7271b599","datafordelerOpdateringstid":"2025-11-24T18:17:05.602221Z","datafordelerRegisterImportSequenceNumber":349504},{"eventid":47,"entityname":"Branche","eventaction":"i","fromfailedimport":false,"object_id":"4003849238","object_datafordelerRowId":"46294bb5-11ea-4712-a84e-391983e78c20","datafordelerOpdateringstid":"2025-11-24T18:17:05.603640Z","datafordelerRegisterImportSequenceNumber":349504},{"eventid":48,"entityname":"CVREnhed","eventaction":"d","fromfailedimport":false,"object_id":"4003849237","object_datafordelerRowId":"baedf4df-ea9b-49cb-bc72-65288c05cfd2","datafordelerOpdateringstid":"2025-11-24T18:17:05.608091Z","datafordelerRegisterImportSequenceNumber":309826},{"eventid":49,"entityname":"Virksomhed","eventaction":"d","fromfailedimport":false,"object_id":"4003849237","object_datafordelerRowId":"d6bbce96-faf4-4953-9387-8d19f3476a94","datafordelerOpdateringstid":"2025-11-24T18:17:05.615340Z","datafordelerRegisterImportSequenceNumber":309826},{"eventid":50,"entityname":"Reklamebeskyttelse","eventaction":"d","fromfailedimport":false,"object_id":"4003849237","object_datafordelerRowId":"d47d9264-6374-4b16-80f4-7c92ca94eb24","datafordelerOpdateringstid":"2025-11-24T18:17:05.620454Z","datafordelerRegisterImportSequenceNumber":309826}]}}}'
+  recorded_at: Sat, 10 Oct 2026 14:28:53 GMT
+- request:
+    method: post
+    uri: https://graphql.datafordeler.dk/CVR/v2?apiKey=<API_KEY>
+    body:
+      encoding: UTF-8
+      string: '{"query":"query NavnByRowId($rowId: UUID!, $at: DafDateTime!) {\n  CVR_Navn(first:
+        1, virkningstid: $at, where: { datafordelerRowId: { eq: $rowId } }) {\n    nodes
+        { CVREnhedsId vaerdi datafordelerRowId }\n  }\n}\n","variables":{"rowId":"5046e4ed-b302-4c29-86ca-4e3c2452e713","at":"2026-10-09T12:00:00.000000Z"}}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - Cvrvaelger/0.1.0
+      Host:
+      - graphql.datafordeler.dk
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sat, 10 Oct 2026 14:28:53 GMT
+      Transfer-Encoding:
+      - chunked
+      Server-Timing:
+      - reqlatency;dur=15
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+      - max-age=63072000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: '{"data":{"CVR_Navn":{"nodes":[{"CVREnhedsId":"4010603255","vaerdi":"Emdrup
+        Bodega","datafordelerRowId":"5046e4ed-b302-4c29-86ca-4e3c2452e713"}]}}}'
+  recorded_at: Sat, 10 Oct 2026 14:28:53 GMT
+recorded_with: VCR 6.4.0

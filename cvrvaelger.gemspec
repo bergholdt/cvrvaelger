@@ -11,8 +11,8 @@ Gem::Specification.new do |spec|
   spec.summary = "Ruby client for Danish CVR company lookup via Datafordeler GraphQL."
   spec.description = <<~DESC
     HTTP client for Det Centrale Virksomhedsregister (CVR) on Datafordeler:
-    GraphQL lookup/search for picker UX, plus Fildownload helpers for
-    totalextract zips. No Rails dependency.
+    GraphQL lookup/search for picker UX, Fildownload helpers for totalextract
+    zips, and CVR_Events pull/poll for incremental sync. No Rails dependency.
   DESC
   spec.homepage = "https://github.com/bergholdt/cvrvaelger"
   spec.license = "MIT"

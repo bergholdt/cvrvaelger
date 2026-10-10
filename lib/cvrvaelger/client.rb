@@ -6,6 +6,8 @@ require "uri"
 
 require_relative "company"
 require_relative "file_download"
+require_relative "event"
+require_relative "client_events"
 
 module Cvrvaelger
   # HTTP client for Det Centrale Virksomhedsregister via Datafordeler GraphQL
@@ -17,6 +19,8 @@ module Cvrvaelger
   # No demo/default secret — configure CVRVAELGER_API_KEY or pass api_key:.
   #
   class Client
+    include ClientEvents
+
     DEFAULT_BASE_URL = "https://graphql.datafordeler.dk/CVR/v2"
     DEFAULT_FILE_DOWNLOAD_BASE_URL = "https://api.datafordeler.dk"
 

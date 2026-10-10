@@ -4,6 +4,7 @@ require_relative "cvrvaelger/version"
 require_relative "cvrvaelger/error"
 require_relative "cvrvaelger/company"
 require_relative "cvrvaelger/file_download"
+require_relative "cvrvaelger/event"
 require_relative "cvrvaelger/client"
 
 # Ruby client for Det Centrale Virksomhedsregister (CVR) via Datafordeler

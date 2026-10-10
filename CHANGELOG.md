@@ -4,6 +4,9 @@
 
 - Fildownload client: `available_file_downloads`, `download_file`, `download_latest`
   for CVR totalextract zips.
+- CVR_Events pull/poll: `events` (cursor via `since_event_id` / `after`),
+  `virksomhed_by_row_id` / `navn_by_row_id` / `adressering_by_row_id`, and
+  `register_import_status` for incremental sync after a TotalDownload baseline.
 
 ## 0.1.0
 

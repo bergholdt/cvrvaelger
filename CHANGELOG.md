@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Fildownload client: `available_file_downloads`, `download_file`, `download_latest`
+  for CVR totalextract zips.
+
 ## 0.1.0
 
 - Initial public release: Datafordeler CVR GraphQL v2 client (`lookup` / `search`).

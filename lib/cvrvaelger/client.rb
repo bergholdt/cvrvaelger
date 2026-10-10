@@ -5,15 +5,20 @@ require "json"
 require "uri"
 
 require_relative "company"
+require_relative "file_download"
 
 module Cvrvaelger
-  # HTTP client for Det Centrale Virksomhedsregister via Datafordeler GraphQL.
+  # HTTP client for Det Centrale Virksomhedsregister via Datafordeler GraphQL
+  # and Fildownload.
   #
-  # Official endpoint: https://graphql.datafordeler.dk/CVR/v2
+  # GraphQL: https://graphql.datafordeler.dk/CVR/v2
+  # Files:   https://api.datafordeler.dk/FileDownloads/...
   # Auth: free API key from Datafordeler Administration (query param `apiKey`).
   # No demo/default secret — configure CVRVAELGER_API_KEY or pass api_key:.
+  #
   class Client
     DEFAULT_BASE_URL = "https://graphql.datafordeler.dk/CVR/v2"
+    DEFAULT_FILE_DOWNLOAD_BASE_URL = "https://api.datafordeler.dk"
 
     # Datafordeler allows one root field per query. Name match is exact (`eq`);
     # there is no contains/fuzzy operator. `virkningstid` selects the bitemporal row.
@@ -63,12 +68,15 @@ module Cvrvaelger
       }
     GRAPHQL
 
-    attr_reader :base_url, :api_key
+    attr_reader :base_url, :file_download_base_url, :api_key
 
-    def initialize(api_key: nil, base_url: nil, http: nil)
+    def initialize(api_key: nil, base_url: nil, file_download_base_url: nil, http: nil)
       @api_key = present_string(api_key) || present_string(ENV.fetch("CVRVAELGER_API_KEY", nil)) ||
                  present_string(ENV.fetch("DATAFORDELER_API_KEY", nil))
       @base_url = present_string(base_url) || present_string(ENV.fetch("CVRVAELGER_BASE_URL", nil)) || DEFAULT_BASE_URL
+      @file_download_base_url = present_string(file_download_base_url) ||
+                                present_string(ENV.fetch("CVRVAELGER_FILE_DOWNLOAD_BASE_URL", nil)) ||
+                                DEFAULT_FILE_DOWNLOAD_BASE_URL
       @http = http
     end
 
@@ -104,6 +112,51 @@ module Cvrvaelger
       Array(nodes(payload)).filter_map { |node| node["CVREnhedsId"] }.uniq.filter_map do |id|
         company_from_id(id, stamp)
       end
+    end
+
+    # List available CVR totaldownload zips (metadata only).
+    # Optional filters: entity ("Navn"), type_of_data ("Current"), format ("json").
+    def available_file_downloads(entity: nil, type_of_data: nil, format: nil)
+      ensure_api_key!
+      payload = get_json("/FileDownloads/GetAvailableFileDownloads", Register: "CVR")
+      rows = Array(payload["availableFileDownloads"])
+      rows.filter_map do |row|
+        next unless row.is_a?(Hash)
+
+        file = FileDownload.from_node(row)
+        next if entity && !entity.to_s.casecmp?(file.entity_name.to_s)
+        next if type_of_data && !type_of_data.to_s.casecmp?(file.type_of_data.to_s)
+        next if format && !format.to_s.casecmp?(file.contained_file_format.to_s)
+
+        file
+      end
+    end
+
+    # Download a named zip to `to` (filesystem path). Returns the path.
+    def download_file(file_name, to:)
+      ensure_api_key!
+      raise ArgumentError, "to: path is required" if blank?(to)
+      raise ArgumentError, "file_name is required" if blank?(file_name)
+
+      get_file({ Filename: file_name.to_s }, to: to.to_s)
+    end
+
+    # Download the latest totaldownload for an entity (e.g. Navn / Virksomhed).
+    # `type` is Current/Temporal/Bitemporal; `format` is json/csv.
+    def download_latest(entity:, to:, type: "current", format: "json")
+      ensure_api_key!
+      raise ArgumentError, "entity is required" if blank?(entity)
+      raise ArgumentError, "to: path is required" if blank?(to)
+
+      get_file(
+        {
+          Register: "CVR",
+          LatestTotalForEntity: entity.to_s,
+          type: type.to_s.downcase,
+          format: format.to_s.upcase
+        },
+        to: to.to_s
+      )
     end
 
     private
@@ -180,10 +233,7 @@ module Cvrvaelger
     end
 
     def post_graphql(query, **variables)
-      uri = URI(base_url)
-      query_params = URI.decode_www_form(uri.query.to_s).to_h
-      query_params["apiKey"] = api_key
-      uri.query = URI.encode_www_form(query_params)
+      uri = with_api_key(URI(base_url))
 
       body = JSON.generate(query: query, variables: variables)
       request = Net::HTTP::Post.new(uri)
@@ -207,6 +257,59 @@ module Cvrvaelger
       end
 
       payload
+    end
+
+    def get_json(path, **params)
+      uri = with_api_key(URI.join("#{file_download_base_url}/", path.delete_prefix("/")), **params)
+      request = Net::HTTP::Get.new(uri)
+      request["Accept"] = "application/json"
+      request["User-Agent"] = "Cvrvaelger/#{VERSION}"
+
+      response = perform(uri, request)
+      raise ProviderError, "Datafordeler CVR error (#{response.code})" unless response.is_a?(Net::HTTPSuccess)
+
+      begin
+        JSON.parse(response.body)
+      rescue JSON::ParserError
+        raise ProviderError, "Datafordeler CVR returned invalid JSON"
+      end
+    end
+
+    def get_file(params, to:)
+      uri = with_api_key(URI.join("#{file_download_base_url}/", "FileDownloads/GetFile"), **params)
+      request = Net::HTTP::Get.new(uri)
+      request["Accept"] = "application/zip, application/octet-stream, */*"
+      request["User-Agent"] = "Cvrvaelger/#{VERSION}"
+
+      if http
+        response = http.call(uri, request)
+        raise ProviderError, "Datafordeler CVR error (#{response.code})" unless response.is_a?(Net::HTTPSuccess)
+
+        File.binwrite(to, response.body)
+        return to
+      end
+
+      File.open(to, "wb") do |io|
+        Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == "https", open_timeout: 10,
+                                            read_timeout: 600) do |client|
+          client.request(request) do |response|
+            raise ProviderError, "Datafordeler CVR error (#{response.code})" unless response.is_a?(Net::HTTPSuccess)
+
+            response.read_body { |chunk| io.write(chunk) }
+          end
+        end
+      end
+      to
+    rescue Net::OpenTimeout, Net::ReadTimeout, Errno::ECONNREFUSED, SocketError => e
+      raise ProviderError, "Datafordeler CVR unreachable (#{e.class})"
+    end
+
+    def with_api_key(uri, **params)
+      query_params = URI.decode_www_form(uri.query.to_s).to_h
+      params.each { |key, value| query_params[key.to_s] = value unless value.nil? }
+      query_params["apiKey"] = api_key
+      uri.query = URI.encode_www_form(query_params)
+      uri
     end
 
     def perform(uri, request)

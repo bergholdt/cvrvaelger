@@ -1,10 +1,12 @@
 # Cvrvaelger
 
 Ruby client for **Det Centrale Virksomhedsregister (CVR)** via
-[Datafordeler GraphQL](https://datafordeler.dk/dataoversigt/det-centrale-virksomhedsregister-cvr/cvr-graphql/).
+[Datafordeler GraphQL](https://datafordeler.dk/dataoversigt/det-centrale-virksomhedsregister-cvr/cvr-graphql/)
+and [Fildownload](https://datafordeler.dk/dataoversigt/det-centrale-virksomhedsregister-cvr/cvr-fildownload/).
 
 Denmark only — look up an 8-digit CVR or registered company name and return
-picker-shaped fields (name, light address, status).
+picker-shaped fields (name, light address, status). Also supports Datafordeler
+CVR Fildownload (list/download totalextract zips).
 
 ## Install
 
@@ -44,6 +46,11 @@ client.search("lego") # => []
 
 # Optional bitemporal cut-off (GraphQL `virkningstid`, default: now)
 client.lookup("47458714", at: Time.utc(2020, 1, 1))
+
+# Fildownload: list metadata and stream a zip to disk
+files = client.available_file_downloads(entity: "Navn", type_of_data: "Current", format: "json")
+client.download_latest(entity: "Virksomhed", type: "current", format: "json", to: "tmp/virksomhed.zip")
+client.download_file(files.first.file_name, to: "tmp/navn.zip")
 ```
 
 Environment variables:
@@ -53,6 +60,7 @@ Environment variables:
 | `CVRVAELGER_API_KEY` | Datafordeler API key (preferred) |
 | `DATAFORDELER_API_KEY` | Accepted alias |
 | `CVRVAELGER_BASE_URL` | Override GraphQL endpoint (default `https://graphql.datafordeler.dk/CVR/v2`) |
+| `CVRVAELGER_FILE_DOWNLOAD_BASE_URL` | Override Fildownload host (default `https://api.datafordeler.dk`) |
 
 ## API key
 
@@ -75,6 +83,7 @@ To refresh cassettes locally:
 ```sh
 VCR_RECORD=all bundle exec rake test TEST=test/client_live_test.rb
 VCR_RECORD=all bundle exec rake test TEST=test/graphql_features_test.rb
+VCR_RECORD=all bundle exec rake test TEST=test/file_download_live_test.rb
 ```
 
 Never hand-write cassette response bodies.

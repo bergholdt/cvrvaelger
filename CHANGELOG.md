@@ -3,7 +3,7 @@
 ## Unreleased
 
 - Fildownload client: `available_file_downloads`, `download_file`, `download_latest`
-  for weekly CVR totalextract zips (host app owns schedule + search index).
+  for CVR totalextract zips.
 
 ## 0.1.0
 

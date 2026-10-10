@@ -5,8 +5,8 @@ Ruby client for **Det Centrale Virksomhedsregister (CVR)** via
 and [Fildownload](https://datafordeler.dk/dataoversigt/det-centrale-virksomhedsregister-cvr/cvr-fildownload/).
 
 Denmark only — look up an 8-digit CVR or registered company name and return
-picker-shaped fields (name, light address, status). Optionally download weekly
-totalextract zips for a host-app search index.
+picker-shaped fields (name, light address, status). Also supports Datafordeler
+CVR Fildownload (list/download totalextract zips).
 
 ## Install
 
@@ -47,13 +47,11 @@ client.search("lego") # => []
 # Optional bitemporal cut-off (GraphQL `virkningstid`, default: now)
 client.lookup("47458714", at: Time.utc(2020, 1, 1))
 
-# Weekly totaldownload for a host-app search index (Sjakro schedules this).
+# Fildownload: list metadata and stream a zip to disk
 files = client.available_file_downloads(entity: "Navn", type_of_data: "Current", format: "json")
 client.download_latest(entity: "Virksomhed", type: "current", format: "json", to: "tmp/virksomhed.zip")
 client.download_file(files.first.file_name, to: "tmp/navn.zip")
 ```
-
-The gem does **not** unzip, parse, or index files — that belongs in the host app.
 
 Environment variables:
 

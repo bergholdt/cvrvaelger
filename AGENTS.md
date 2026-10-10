@@ -7,8 +7,8 @@ Public README is for gem users. Keep maintainer checklists and rejected scope ou
 **In:** Datafordeler CVR GraphQL v2 `lookup` / `search`, and Fildownload list/download
 of totalextract zips (metadata + stream to disk).
 
-**Out:** Rails controllers/Stimulus, scheduling, unzip/ETL/search indexes, CRM sync,
-person data (`CVRPerson`), billing/credit scores, UK Companies House.
+**Out:** Rails controllers/Stimulus, unzip/ETL/persistence, CRM sync, person data
+(`CVRPerson`), billing/credit scores, UK Companies House.
 
 ## Security
 

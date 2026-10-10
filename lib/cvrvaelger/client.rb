@@ -16,7 +16,6 @@ module Cvrvaelger
   # Auth: free API key from Datafordeler Administration (query param `apiKey`).
   # No demo/default secret — configure CVRVAELGER_API_KEY or pass api_key:.
   #
-  # Host apps own Saturday scheduling, unzip/parse, and search indexes.
   class Client
     DEFAULT_BASE_URL = "https://graphql.datafordeler.dk/CVR/v2"
     DEFAULT_FILE_DOWNLOAD_BASE_URL = "https://api.datafordeler.dk"

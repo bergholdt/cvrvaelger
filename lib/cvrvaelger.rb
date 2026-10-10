@@ -9,7 +9,7 @@ require_relative "cvrvaelger/client"
 # Ruby client for Det Centrale Virksomhedsregister (CVR) via Datafordeler
 # GraphQL and Fildownload.
 #
-# Denmark only. Rails controllers, Stimulus pickers, scheduling, and search
-# indexes belong in the host application (same split as adressevaelger).
+# Denmark only. Rails controllers, Stimulus pickers, and persistence belong in the
+# host application (same split as adressevaelger).
 module Cvrvaelger
 end

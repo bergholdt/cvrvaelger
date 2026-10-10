@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.2.0
+
 - Fildownload client: `available_file_downloads`, `download_file`, `download_latest`
   for CVR totalextract zips.
 - CVR_Events pull/poll: `events` (cursor via `since_event_id` / `after`),

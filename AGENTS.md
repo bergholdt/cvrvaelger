@@ -4,11 +4,13 @@ Public README is for gem users. Keep maintainer checklists and rejected scope ou
 
 ## Scope
 
-**In:** Datafordeler CVR GraphQL v2 `lookup` / `search`, and Fildownload list/download
-of totalextract zips (metadata + stream to disk).
+**In:** Datafordeler CVR GraphQL v2 `lookup` / `search`, Fildownload list/download
+of totalextract zips (metadata + stream to disk), and `CVR_Events` pull/poll plus
+row-id fetch for Virksomhed / Navn / Adressering (incremental sync helpers).
 
 **Out:** Rails controllers/Stimulus, unzip/ETL/persistence, CRM sync, person data
-(`CVRPerson`), billing/credit scores, UK Companies House.
+(`CVRPerson`), SSE/subscriptions as primary sync, billing/credit scores, UK
+Companies House.
 
 ## Security
 
@@ -30,6 +32,7 @@ Cassettes are recorded against the real Datafordeler CVR GraphQL API. Do not han
 VCR_RECORD=all bundle exec rake test TEST=test/client_live_test.rb
 VCR_RECORD=all bundle exec rake test TEST=test/graphql_features_test.rb
 VCR_RECORD=all bundle exec rake test TEST=test/file_download_live_test.rb
+VCR_RECORD=all bundle exec rake test TEST=test/client_events_live_test.rb
 ```
 
 Do not VCR-record full entity zip downloads (hundreds of MB).

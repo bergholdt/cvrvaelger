@@ -6,7 +6,8 @@ and [Fildownload](https://datafordeler.dk/dataoversigt/det-centrale-virksomhedsr
 
 Denmark only — look up an 8-digit CVR or registered company name and return
 picker-shaped fields (name, light address, status). Also supports Datafordeler
-CVR Fildownload (list/download totalextract zips).
+CVR Fildownload (list/download totalextract zips) and `CVR_Events` pull/poll for
+incremental sync.
 
 ## Install
 
@@ -51,7 +52,29 @@ client.lookup("47458714", at: Time.utc(2020, 1, 1))
 files = client.available_file_downloads(entity: "Navn", type_of_data: "Current", format: "json")
 client.download_latest(entity: "Virksomhed", type: "current", format: "json", to: "tmp/virksomhed.zip")
 client.download_file(files.first.file_name, to: "tmp/navn.zip")
+
+# Incremental sync after a TotalDownload baseline (persist last event_id yourself).
+# See Datafordeler transitions guide for entitetsbaserede hændelser.
+status = client.register_import_status
+page = client.events(since_event_id: last_id, first: 100)
+page.events.each do |event|
+  # from_failed_import marks duplicate catch-up events — handle in the host app.
+  next if event.event_action == "d" # delete local row for event.object_datafordeler_row_id
+
+  case event.entity_name
+  when "Virksomhed"
+    client.virksomhed_by_row_id(event.object_datafordeler_row_id) # => Hash or nil
+  when "Navn"
+    client.navn_by_row_id(event.object_datafordeler_row_id)
+  when "Adressering"
+    client.adressering_by_row_id(event.object_datafordeler_row_id)
+  # other entities: query GraphQL yourself
+  end
+end
+page = client.events(since_event_id: last_id, first: 100, after: page.end_cursor) if page.has_next_page
 ```
+
+SSE / GraphQL subscriptions are not wrapped here; poll with `events` instead.
 
 Environment variables:
 
@@ -84,6 +107,7 @@ To refresh cassettes locally:
 VCR_RECORD=all bundle exec rake test TEST=test/client_live_test.rb
 VCR_RECORD=all bundle exec rake test TEST=test/graphql_features_test.rb
 VCR_RECORD=all bundle exec rake test TEST=test/file_download_live_test.rb
+VCR_RECORD=all bundle exec rake test TEST=test/client_events_live_test.rb
 ```
 
 Never hand-write cassette response bodies.

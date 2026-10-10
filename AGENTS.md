@@ -4,10 +4,11 @@ Public README is for gem users. Keep maintainer checklists and rejected scope ou
 
 ## Scope
 
-**In:** Datafordeler CVR GraphQL v2 `lookup` / `search`, company name + light address.
+**In:** Datafordeler CVR GraphQL v2 `lookup` / `search`, and Fildownload list/download
+of totalextract zips (metadata + stream to disk).
 
-**Out:** Rails controllers/Stimulus, CRM sync, person data (`CVRPerson`),
-billing/credit scores, UK Companies House (host-app adapter later).
+**Out:** Rails controllers/Stimulus, scheduling, unzip/ETL/search indexes, CRM sync,
+person data (`CVRPerson`), billing/credit scores, UK Companies House.
 
 ## Security
 
@@ -28,7 +29,10 @@ Cassettes are recorded against the real Datafordeler CVR GraphQL API. Do not han
 ```sh
 VCR_RECORD=all bundle exec rake test TEST=test/client_live_test.rb
 VCR_RECORD=all bundle exec rake test TEST=test/graphql_features_test.rb
+VCR_RECORD=all bundle exec rake test TEST=test/file_download_live_test.rb
 ```
+
+Do not VCR-record full entity zip downloads (hundreds of MB).
 
 CI uses `record: :none`. API keys are redacted on record (`<API_KEY>`).
 

@@ -304,7 +304,7 @@ module Cvrvaelger
         end
       end
       to
-    rescue Net::OpenTimeout, Net::ReadTimeout, Errno::ECONNREFUSED, SocketError => e
+    rescue Net::OpenTimeout, Net::ReadTimeout, Errno::ECONNREFUSED, Errno::ECONNRESET, SocketError => e
       raise ProviderError, "Datafordeler CVR unreachable (#{e.class})"
     end
 
@@ -323,7 +323,7 @@ module Cvrvaelger
                                           read_timeout: 30) do |client|
         client.request(request)
       end
-    rescue Net::OpenTimeout, Net::ReadTimeout, Errno::ECONNREFUSED, SocketError => e
+    rescue Net::OpenTimeout, Net::ReadTimeout, Errno::ECONNREFUSED, Errno::ECONNRESET, SocketError => e
       raise ProviderError, "Datafordeler CVR unreachable (#{e.class})"
     end
 

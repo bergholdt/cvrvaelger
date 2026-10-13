@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## 0.2.1
+
+- Treat `Errno::ECONNRESET` as `ProviderError` ("unreachable") alongside
+  open/read timeouts and connection refused — Datafordeler TLS resets during
+  GraphQL and file download no longer bubble as raw syscall errors.
+
 ## 0.2.0
 
 - Fildownload client: `available_file_downloads`, `download_file`, `download_latest`

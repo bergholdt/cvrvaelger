@@ -153,6 +153,17 @@ class ClientLookupTest < Minitest::Test
     assert_match(/401/, error.message)
   end
 
+  def test_raises_provider_error_on_econnreset
+    http = lambda do |_uri, _request|
+      raise Errno::ECONNRESET, "Connection reset by peer - SSL_connect"
+    end
+
+    error = assert_raises(Cvrvaelger::ProviderError) do
+      Cvrvaelger::Client.new(api_key: "k", http: http).lookup("25052943")
+    end
+    assert_match(/Errno::ECONNRESET/, error.message)
+  end
+
   AT = Time.utc(2026, 10, 9, 12, 0, 0)
   STAMP = "2026-10-09T12:00:00.000000Z"
 
